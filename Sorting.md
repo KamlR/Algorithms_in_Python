@@ -181,3 +181,126 @@
                 std::cout << radix_sort[i] << " ";
             }
         }
+
+## Merge sort:
+        #include <iostream>
+        #include <vector>
+
+        void merge(std::vector<int> &nums, int left, int middle, int right) {
+            int sizeFirst = middle - left + 1;
+            int sizeSecond = right - middle;
+            std::vector<int> temperLeft(sizeFirst);
+            std::vector<int> temperRight(sizeSecond);
+            for (auto i = 0; i < sizeFirst; i++) {
+                temperLeft[i] = nums[left + i];
+            }
+            for (auto j = 0; j < sizeSecond; j++) {
+                temperRight[j] = nums[middle + 1 + j];
+            }
+            int indexFirst = 0;
+            int indexSecond = 0;
+            int indexMerge = left;
+            while (indexFirst < sizeFirst && indexSecond < sizeSecond) {
+                if (temperLeft[indexFirst] <= temperRight[indexSecond]) {
+                    nums[indexMerge] = temperLeft[indexFirst];
+                    indexFirst++;
+                } else {
+                    nums[indexMerge] = temperRight[indexSecond];
+                    indexSecond++;
+                }
+                indexMerge++;
+            }
+            while (indexFirst < sizeFirst) {
+                nums[indexMerge] = temperLeft[indexFirst];
+                indexFirst++;
+                indexMerge++;
+            }
+            while (indexSecond < sizeSecond) {
+                nums[indexMerge] = temperRight[indexSecond];
+                indexSecond++;
+                indexMerge++;
+            }
+        }
+        void mergeSort(std::vector<int> &nums, int begin, int end) {
+            if (begin >= end) {
+                return;
+            }
+            int middle = begin + (end - begin) / 2;
+            mergeSort(nums, begin, middle);
+            mergeSort(nums, middle + 1, end);
+            merge(nums, begin, middle, end);
+        }
+        int main() {
+            int n, x;
+            std::cin >> n;
+            std::vector<int> nums(n);
+            for (int i = 0; i < n; ++i) {
+                std::cin >> x;
+                nums[i] = x;
+            }
+            mergeSort(nums, 0, static_cast<int>(nums.size()) - 1);
+            for (int i = 0; i < n; ++i) {
+                std::cout << nums[i] << " ";
+            }
+        }
+
+## Quick sort:
+        void quickSort(std::vector<int> &array, int low, int high) {
+            if (high - low <= 1) {
+                return;
+            }
+            int i = low;
+            int j = high - 1;
+            int pivot = array[i];
+            int temp;
+
+            while (i <= j) {
+                while (array[i] < pivot) {
+                    i++;
+                }
+                while (array[j] > pivot) {
+                    j--;
+                }
+                if (i <= j) {
+                    temp = array[i];
+                    array[i] = array[j];
+                    array[j] = temp;
+                    i++;
+                    j--;
+                }
+            }
+            if (low < j) {
+                quickSort(array, low, j + 1);
+            }
+            if (i < high) {
+                quickSort(array, i, high);
+            }
+        }
+## Heap sort:
+        void buildHeap(int index_maxi, int heap_size, std::vector<int> &nums) {
+            int left = index_maxi * 2 + 1;
+            int right = index_maxi * 2 + 2;
+            int new_maxi = index_maxi;
+            if (left < heap_size && nums[left] > nums[index_maxi]) {
+                new_maxi = left;
+            }
+            if (right < heap_size && nums[right] > nums[new_maxi]) {
+                new_maxi = right;
+            }
+            if (new_maxi != index_maxi) {
+                std::swap(nums[index_maxi], nums[new_maxi]);
+                buildHeap(new_maxi, heap_size, nums);
+            }
+        }
+
+        void heapSort(std::vector<int> &nums, int n) {
+            for (int i = (n / 2) - 1; i >= 0; --i) {
+                buildHeap(i, n, nums);
+            }
+            for (int i = n - 1; i >= 0; --i) {
+                std::swap(nums[0], nums[i]);
+                buildHeap(0, i, nums);
+            }
+        }
+        
+        

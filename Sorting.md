@@ -123,3 +123,61 @@
     }
 
 ## Radix sort:
+        #include <iostream>
+        #include <vector>
+        #include "string"
+        #include <algorithm>
+
+        std::vector<int> radix_sort;
+        std::vector<int> digits;
+        std::vector<int> temper;
+        int flag = 0;
+        int getDigit(int num, int digit_number) {
+            for (int i = 0; i < digit_number; ++i) {
+                num /= 256;
+            }
+            return num % 256;
+        }
+        void countingSort(int n, int digit_number) {
+            if (flag == 0) {
+                digits = std::vector<int>(256);
+                temper = std::vector<int>(n);
+            }
+            flag = 1;
+            for (int i = 0; i < n; ++i) {
+                int index = getDigit(radix_sort[i], digit_number);
+                digits[index]++;
+            }
+            for (int i = 1; i < 256; ++i) {
+                digits[i] += digits[i - 1];
+            }
+            for (int i = n - 1; i >= 0; --i) {
+                int index = getDigit(radix_sort[i], digit_number);
+                digits[index]--;
+                temper[digits[index]] = radix_sort[i];
+            }
+            for (int i = 0; i < n; ++i) {
+                radix_sort[i] = temper[i];
+                temper[i] = 0;
+            }
+            for (int i = 0; i < 256; ++i) {
+                digits[i] = 0;
+            }
+        }
+        void radixSort(int n) {
+            for (int i = 0; i < 4; ++i) {
+                countingSort(n, i);
+            }
+        }
+        int main() {
+            int n, x;
+            std::cin >> n;
+            for (int i = 0; i < n; ++i) {
+                std::cin >> x;
+                radix_sort.push_back(x);
+            }
+            radixSort(n);
+            for (int i = 0; i < n; ++i) {
+                std::cout << radix_sort[i] << " ";
+            }
+        }

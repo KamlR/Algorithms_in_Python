@@ -49,7 +49,25 @@
     }
     
 ## Bubble sort Iverson2:
-
+        void bubbleSortIverson2(std::vector<int> &nums, int n) {
+            int index = n - 1;
+            int temper_index;
+            for (int i = 0; i < n; ++i) {
+                temper_index = -1;
+                for (int j = 0; j < index; ++j) {
+                    if (nums[j] > nums[j + 1]) {
+                        int temper = nums[j];
+                        nums[j] = nums[j + 1];
+                        nums[j + 1] = temper;
+                        temper_index = j;
+                    }
+                }
+                if (temper_index == -1) {
+                    break;
+                }
+                index = temper_index;
+            }
+        }
 ## Insertion sort:
     void insertionSort(std::vector<int> &nums, int n) {
         int current_num, j;

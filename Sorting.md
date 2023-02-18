@@ -150,27 +150,21 @@
         std::vector<int> digits;
         std::vector<int> temper;
         int flag = 0;
-        int getDigit(int num, int digit_number) {
-            for (int i = 0; i < digit_number; ++i) {
-                num /= 256;
-            }
-            return num % 256;
-        }
         void countingSort(int n, int digit_number) {
             if (flag == 0) {
-                digits = std::vector<int>(256);
+                digits = std::vector<int>(10);
                 temper = std::vector<int>(n);
             }
             flag = 1;
             for (int i = 0; i < n; ++i) {
-                int index = getDigit(radix_sort[i], digit_number);
+                int index = (radix_sort[i] / digit_number ) % 10;
                 digits[index]++;
             }
-            for (int i = 1; i < 256; ++i) {
+            for (int i = 1; i < 10; ++i) {
                 digits[i] += digits[i - 1];
             }
             for (int i = n - 1; i >= 0; --i) {
-                int index = getDigit(radix_sort[i], digit_number);
+                int index = (radix_sort[i] / digit_number ) % 10;
                 digits[index]--;
                 temper[digits[index]] = radix_sort[i];
             }
@@ -178,13 +172,13 @@
                 radix_sort[i] = temper[i];
                 temper[i] = 0;
             }
-            for (int i = 0; i < 256; ++i) {
+            for (int i = 0; i < 10; ++i) {
                 digits[i] = 0;
             }
         }
         void radixSort(int n) {
-            for (int i = 0; i < 4; ++i) {
-                countingSort(n, i);
+            for (int byte = 1; 4100 / byte > 0; byte *= 10) {
+                countingSort(n, byte);
             }
         }
         int main() {

@@ -14,12 +14,12 @@ def test_insert_left_rotations():
 
  # левый поворот
   avl.insert_key(24)
-  assert avl.inorder(avl.root) == [7, 10, 14,18, 22, 24]
+  assert avl.inorder(avl.root) == [7, 10, 14, 18, 22, 24]
 
   avl.insert_key(8)
   # левый поворот
   avl.insert_key(9)
-  assert avl.inorder(avl.root) == [7, 8, 9,10, 14, 18, 22, 24]
+  assert avl.inorder(avl.root) == [7, 8, 9, 10, 14, 18, 22, 24]
 
 
 def test_insert_right_rotations():
